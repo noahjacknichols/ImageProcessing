@@ -8,22 +8,24 @@ imgArray = np.array(img)
 print(imgArray.shape)
 
 def addBorder(imgArr):
-    temp = np.array([[0 for x in range(height + 2)] for y in range(width + 2)]).astype('int8')
     width, height = imgArr.shape
-    for i in range(0, width):
-        for j in range(0,height):
-            temp = imgArr[i][j]
-            tmpArr[i+1][j+1] = temp
+    temp = np.array([[0 for x in range(height + 2)] for y in range(width + 2)]).astype('int8')
+    
+    for i in range(1, width-1):
+        for j in range(1,height-1):
+            t = imgArr[i][j]
+            temp[i+1][j+1] = t
+    return temp
 
 def convolution(kernel, imgArr):
-
+    tmpArr = imgArr
     width, height = imgArray.shape
-    temp = np.array([[0 for x in range(height + 2)] for y in range(width + 2)]).astype('int8')
     outArr = imgArr
     for i in range(0, width):
         for j in range(0, height):
-            #convolution math
-            print()
+            outArr[i][j] = (kernel[0][0] * tmpArr[i][j]) + (kernel[0][1] * tmpArr[i][j + 1]) + (kernel[0][2] * tmpArr[i][j + 2]) + \
+                       (kernel[1][0] * tmpArr[i + 1][j]) + (kernel[1][1] * tmpArr[i + 1][j + 1]) + (kernel[1][2] * tmpArr[i + 1][j + 2]) + \
+                       (kernel[2][0] * tmpArr[i + 2][j]) + (kernel[2][1] * tmpArr[i + 2][j + 1]) + (kernel[2][2] * tmpArr[i + 2][j + 2])
 
 
     return outArr
@@ -33,12 +35,16 @@ def convolution(kernel, imgArr):
 width, height = imgArray.shape
 
 
-kernel = [[-1,-1,-1],[-1,5,-1], [-1,-1,-1]] #KERNEL, IM DUMMY THICC
+kernel = [[-1,-1,-1],[-1,8,-1], [-1,-1,-1]] #KERNEL, IM DUMMY THICC
+
+
+temp = addBorder(imgArray)
+outArr = convolution(kernel, temp)
+
+output = Image.fromarray(outArr, 'L')
+output.save("output.png")
 
 
 
-temp = addBorder(imgArr)
-
-
-outArr = convolution(kernel, imgArray)
+#outArr = convolution(kernel, imgArray)
 
