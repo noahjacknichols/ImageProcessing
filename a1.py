@@ -2,10 +2,7 @@ import numpy as np
 from PIL import Image
 
 #photo = input("Enter file name:")
-img = Image.open("pepe.png")
 
-imgArray = np.array(img)
-print(imgArray.shape)
 
 def addBorder(imgArr):
     width, height = imgArr.shape
@@ -30,16 +27,32 @@ def convolution(kernel, imgArr):
 
     return outArr
 
+def black_white(imgArr):
+    width, height = imgArray.shape
+    outArr = imgArr
+    for i in range(0, width):
+        for j in range(0, height):
+            if(outArr[i][j] > 127):
+                outArr[i][j] = 255
+            else:
+                outArr[i][j] = 0
+    return outArr
 
 
+
+ ######  MAIN  ######   
+img = Image.open("pepe.png")
+
+imgArray = np.array(img)
+print(imgArray.shape)
 width, height = imgArray.shape
 
 
 kernel = [[-1,-1,-1],[-1,8,-1], [-1,-1,-1]] #KERNEL, IM DUMMY THICC
+outArr = black_white(imgArray)
 
-
-temp = addBorder(imgArray)
-outArr = convolution(kernel, temp)
+# temp = addBorder(imgArray)
+# outArr = convolution(kernel, temp)
 
 output = Image.fromarray(outArr, 'L')
 output.save("output.png")
