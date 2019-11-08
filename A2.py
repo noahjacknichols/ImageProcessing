@@ -56,4 +56,3 @@ def connectedComponent(imgarr):
             temp.append(sum)
 
     return temp
-
