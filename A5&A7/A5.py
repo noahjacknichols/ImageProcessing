@@ -35,29 +35,42 @@ regionWidth = width//3 -10
 print(regionHeight, regionWidth)
 startX = 0
 startY = 0
+endX = regionHeight
+endY = regionWidth
 print(grayImage)
 regions = []
-for i in range(0,2):
-    for j in range(0,3):
-        black = 0
-        white = 0
-        print(startX,startY)
-        for k in range(startX,regionWidth+startX):
-            for x in range(startY, regionHeight+startY):
-                
-                
-                if(grayImage[k][x] == 255):
-                    white+=1
-                else:
-                    black+=1
-        try:
-            ratio = black/white
-        except:
-            ratio = 255
-        regions.append(ratio)
-        
+flag = False
+while(flag == False):
+
+    for i in range(0,3):
+        # startX = 0
+        # endX = regionHeight
+        for j in range(0,3):
+            black = 0
+            white = 0
+            print(startX,startY)
+            
+            for k in range(startX,endX):
+                for x in range(startY, endY):
+                    # print(x,k)
+                    
+                    if(grayImage[k][x] == 255):
+                        white+=1
+                    else:
+                        black+=1
+            try:
+                ratio = black/white
+            except:
+                ratio = 255
+            regions.append(ratio)
+            startY+=regionWidth
+            endY+=regionWidth
+            # print(startX,startY)
         startX+=regionHeight
-    startY+=regionWidth
+        endX+=regionHeight
+        startY= 0
+        endY=regionWidth
+    flag = True
 print(regions)
 
 
